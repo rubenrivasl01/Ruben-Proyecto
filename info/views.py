@@ -15,6 +15,10 @@ User = get_user_model()
 
 @login_required
 def index(request):
+    if request.user.is_anonymous:
+        return render(request, 'info/logout.html')
+    if request.user.is_authenticated and not request.user.is_active:
+        return render(request, 'info/inactive.html')
     if request.user.is_teacher:
         return render(request, 'info/t_homepage.html')
     if request.user.is_student:
